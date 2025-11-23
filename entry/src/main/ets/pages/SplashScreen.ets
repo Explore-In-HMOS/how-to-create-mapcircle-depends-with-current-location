@@ -2,14 +2,14 @@ import { abilityAccessCtrl, bundleManager, common, PermissionRequestResult, Perm
 import { BusinessError } from '@kit.BasicServicesKit';
 import { MapComponent, mapCommon, map } from '@kit.MapKit';
 import { getUserStartLocation } from '../services/LocationServices';
-import { router } from '@kit.ArkUI';
+import { getGlobalContext } from '../entryability/EntryAbility';
 
 @Entry
 @Component
 struct SplashScreen {
 
   private mapOptions?: mapCommon.MapOptions;
-  @State abilityContext: common.UIAbilityContext = getContext(this) as common.UIAbilityContext;
+  private context: common.UIAbilityContext = getGlobalContext();
 
   async checkPermissions() {
     const permissions: Array<Permissions> = ['ohos.permission.LOCATION', 'ohos.permission.APPROXIMATELY_LOCATION', 'ohos.permission.LOCATION_IN_BACKGROUND'];
@@ -54,7 +54,7 @@ struct SplashScreen {
       };
     }
 
-    router.push({
+    this.getUIContext().getRouter().pushUrl({
       url: 'pages/Index',
       params: this.mapOptions
     });
@@ -62,9 +62,8 @@ struct SplashScreen {
 
   requestPermissions(): void {
     let atManager: abilityAccessCtrl.AtManager = abilityAccessCtrl.createAtManager();
-    atManager.requestPermissionsFromUser(this.abilityContext, ['ohos.permission.LOCATION', 'ohos.permission.APPROXIMATELY_LOCATION'])
+    atManager.requestPermissionsFromUser(this.context, ['ohos.permission.LOCATION', 'ohos.permission.APPROXIMATELY_LOCATION'])
       .then((data: PermissionRequestResult) => {
-        console.info('Permission request result: ' + JSON.stringify(data));
 
         this.checkPermissionsAfterRequest();
       })
@@ -104,7 +103,7 @@ struct SplashScreen {
       }
     };
 
-    router.push({
+    this.getUIContext().getRouter().pushUrl({
       url: 'pages/Index',
       params: this.mapOptions
     });

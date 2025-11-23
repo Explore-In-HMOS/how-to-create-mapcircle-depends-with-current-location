@@ -1,6 +1,5 @@
 import { MapComponent, mapCommon, map } from '@kit.MapKit';
 import { AsyncCallback} from '@kit.BasicServicesKit';
-import { router } from '@kit.ArkUI';
 import { geoLocationManager } from '@kit.LocationKit';
 
 @Entry
@@ -22,7 +21,7 @@ struct Index {
   private mapCircle?: map.MapCircle;
 
   aboutToAppear(): void {
-    const params = router.getParams() as mapCommon.MapOptions
+    const params = this.getUIContext().getRouter().getParams() as mapCommon.MapOptions
     if(params) {
       this.mapOptions = params
     }
@@ -62,7 +61,7 @@ struct Index {
             this.centerMapOnLocation(this.currentLocation);
           }
         }
-        this.mapEventManager.on("mapLoad", callback);
+        this.mapEventManager.on('mapLoad', callback);
       } else {
         console.error(`Failed to initialize the map. Code: ${err.code}; message: ${err.message}`);
       }

@@ -1,11 +1,14 @@
-import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from '@kit.AbilityKit';
+import { AbilityConstant, common, ConfigurationConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
 
+
 const DOMAIN = 0x0000;
+export let globalAbilityContext: common.UIAbilityContext | null = null;
 
 export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
+    globalAbilityContext = this.context;
     this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET);
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onCreate');
   }
@@ -41,4 +44,11 @@ export default class EntryAbility extends UIAbility {
     // Ability has back to background
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onBackground');
   }
+}
+
+export function getGlobalContext(): common.UIAbilityContext {
+  if (!globalAbilityContext) {
+    throw new Error('Global context is not initialized. Make sure EntryAbility is created.');
+  }
+  return globalAbilityContext;
 }

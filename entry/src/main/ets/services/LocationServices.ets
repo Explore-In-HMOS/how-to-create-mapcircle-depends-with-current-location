@@ -9,6 +9,5 @@ export async function getUserStartLocation() {
     maxAccuracy: 0
   };
   let startLocation = await geoLocationManager.getCurrentLocation(locationRequest);
-  console.log(startLocation.sourceType?.toString());
   return startLocation;
 }
