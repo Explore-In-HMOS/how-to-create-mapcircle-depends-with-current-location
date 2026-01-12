@@ -10,6 +10,7 @@ struct SplashScreen {
 
   private mapOptions?: mapCommon.MapOptions;
   private context: common.UIAbilityContext = getGlobalContext();
+  @Provide pathStack: NavPathStack = new NavPathStack()
 
   async checkPermissions() {
     const permissions: Array<Permissions> = ['ohos.permission.LOCATION', 'ohos.permission.APPROXIMATELY_LOCATION', 'ohos.permission.LOCATION_IN_BACKGROUND'];
@@ -54,10 +55,8 @@ struct SplashScreen {
       };
     }
 
-    this.getUIContext().getRouter().pushUrl({
-      url: 'pages/Index',
-      params: this.mapOptions
-    });
+    this.pathStack.pushPathByName('Index', this.mapOptions)
+
   }
 
   requestPermissions(): void {
@@ -103,10 +102,7 @@ struct SplashScreen {
       }
     };
 
-    this.getUIContext().getRouter().pushUrl({
-      url: 'pages/Index',
-      params: this.mapOptions
-    });
+    this.pathStack.pushPathByName('Index', this.mapOptions)
   }
 
   async checkAccessToken(permission: Permissions): Promise<abilityAccessCtrl.GrantStatus> {
@@ -114,7 +110,8 @@ struct SplashScreen {
       let atManager: abilityAccessCtrl.AtManager = abilityAccessCtrl.createAtManager();
       let grantStatus: abilityAccessCtrl.GrantStatus = abilityAccessCtrl.GrantStatus.PERMISSION_DENIED;
 
-      let bundleInfo: bundleManager.BundleInfo = await bundleManager.getBundleInfoForSelf(bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_APPLICATION);
+      let bundleInfo: bundleManager.BundleInfo = await bundleManager.getBundleInfoForSelf(bundleManager.
+      BundleFlag.GET_BUNDLE_INFO_WITH_APPLICATION);
       console.info('Succeeded in getting Bundle.');
       let appInfo: bundleManager.ApplicationInfo = bundleInfo.appInfo;
       let tokenId: number = appInfo.accessTokenId;
@@ -133,10 +130,13 @@ struct SplashScreen {
   }
 
   build() {
-    Stack() {
-      LoadingProgress()
+    Navigation(this.pathStack) {
+      Stack() {
+        LoadingProgress()
+      }
+      .height('100%')
+      .width('100%')
     }
-    .height('100%')
-    .width('100%')
+    .mode(NavigationMode.Stack)
   }
 }

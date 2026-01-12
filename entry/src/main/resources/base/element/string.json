@@ -1,6 +1,10 @@
 {
   "string": [
     {
+      "name": "app_name",
+      "value": "how-to-create-mapcircle-depends-with-current-location"
+    },
+    {
       "name": "module_desc",
       "value": "module description"
     },

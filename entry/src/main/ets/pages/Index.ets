@@ -2,15 +2,20 @@ import { MapComponent, mapCommon, map } from '@kit.MapKit';
 import { AsyncCallback} from '@kit.BasicServicesKit';
 import { geoLocationManager } from '@kit.LocationKit';
 
-@Entry
+@Builder
+export function IndexBuilder() {
+  Index()
+}
+
 @Component
 struct Index {
 
+  @Consume pathStack: NavPathStack
   private mapOptions: mapCommon.MapOptions | null = null;
   private callback?: AsyncCallback<map.MapComponentController>;
   private mapController?: map.MapComponentController;
   private mapEventManager?: map.MapEventManager;
-  @State currentLocation: geoLocationManager.Location | null = null;
+  private currentLocation: geoLocationManager.Location | null = null;
   private locationRequest: geoLocationManager.LocationRequest = {
     priority: geoLocationManager.LocationRequestPriority.ACCURACY,
     timeInterval: 0,
@@ -21,10 +26,6 @@ struct Index {
   private mapCircle?: map.MapCircle;
 
   aboutToAppear(): void {
-    const params = this.getUIContext().getRouter().getParams() as mapCommon.MapOptions
-    if(params) {
-      this.mapOptions = params
-    }
 
     this.locationChangeCallback = (location: geoLocationManager.Location) => {
       this.currentLocation = location;
@@ -73,7 +74,7 @@ struct Index {
       const cameraPosition: mapCommon.CameraPosition = {
         target: {
           latitude: location.latitude,
-          longitude: location.longitude,
+          longitude: location.longitude
         },
         zoom: 15,
         tilt: 0,
@@ -123,8 +124,14 @@ struct Index {
   }
 
   build() {
-    Stack() {
-      MapComponent({ mapOptions: this.mapOptions!, mapCallback: this.callback }).width('100%').height('100%');
-    }.height('100%')
+    NavDestination() {
+      Stack() {
+        MapComponent({ mapOptions: this.mapOptions!, mapCallback: this.callback }).width('100%').height('100%');
+      }.height('100%')
+    }.onReady((context: NavDestinationContext) => {
+      this.pathStack = context.pathStack
+      this.mapOptions = context.pathInfo.param as mapCommon.MapOptions
+    })
+    .hideTitleBar(true)
   }
 }

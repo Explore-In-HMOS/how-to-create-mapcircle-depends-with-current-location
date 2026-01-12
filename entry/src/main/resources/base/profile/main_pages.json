@@ -1,6 +1,5 @@
 {
   "src": [
-    "pages/SplashScreen",
-    "pages/Index"
+    "pages/SplashScreen"
   ]
 }

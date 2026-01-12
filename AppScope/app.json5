@@ -1,6 +1,6 @@
 {
   "app": {
-    "bundleName": "com.hmosdemos.mapcirclerecreation",
+    "bundleName": "com.hmosdemos.wearable.how_to_create_mapcircle_depends_with_current_location",
     "vendor": "hmosdemos",
     "versionCode": 1000000,
     "versionName": "1.0.0",

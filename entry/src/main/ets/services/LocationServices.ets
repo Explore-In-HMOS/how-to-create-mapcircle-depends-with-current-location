@@ -1,6 +1,5 @@
 import { geoLocationManager } from '@kit.LocationKit';
 
-
 export async function getUserStartLocation() {
   let locationRequest: geoLocationManager.LocationRequest = {
     priority: geoLocationManager.LocationRequestPriority.ACCURACY,

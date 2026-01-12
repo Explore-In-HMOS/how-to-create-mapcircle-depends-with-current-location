@@ -1,4 +1,4 @@
-> **Note:** To access all shared projects, get information about environment setup, and view other guides, please visit [Explore-In-HMOS-Wearable Index](https://github.com/Explore-In-HMOS-Wearable/hmos-index).
+> **Note:** To access all shared projects, get information about environment setup, and view other guides, please visit 
 
 # How to Create MapCircle Depends with Current Location
 
@@ -33,8 +33,7 @@ This guide shows how to build a MapCircle that follows the user’s current loca
   > Required to get approximate location.
 - `ohos.permission.LOCATION_IN_BACKGROUND`
   > Required to use location services in background
-
-
+  
 # Directory Structure
 
 ```
@@ -63,7 +62,4 @@ entry/src/main/ets/
 # License
 
 **MapCircle Recreation** is distributed under the terms of the MIT License
-See the [LICENSE](../../Downloads/LICENSE) for more information.
-
-
-
+See the [LICENSE](LICENSE) for more information.
